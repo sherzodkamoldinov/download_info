@@ -4,10 +4,9 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:download_info/data/models/product_model.dart';
-import 'package:download_info/services/local_notification_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:open_file_safe/open_file_safe.dart';
+import 'package:flutter_notification/local_notification_service.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
