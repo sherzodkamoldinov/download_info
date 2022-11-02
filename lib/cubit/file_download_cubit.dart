@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:download_info/data/models/product_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file_safe/open_file_safe.dart';
@@ -24,16 +25,16 @@ class FileManagerCubit extends Cubit<FileManagerState> {
         );
 
   void downloadIfExists({
-    required FileInfo fileInfo,
+    required ProductModel productModel,
   }) async {
     bool hasPermission = await _requestWritePermission();
     if (!hasPermission) return;
     Dio dio = Dio();
     var directory = await getDownloadPath();
     print("PATH :${directory?.path}");
-    String url = fileInfo.fileUrl;
+    String url = productModel.fileUrl;
     String newFileLocation =
-        "${directory?.path}/${fileInfo.fileName}${DateTime.now().millisecond}${url.substring(url.length - 5, url.length)}";
+        "${directory?.path}/${productModel.name}${DateTime.now().millisecond}${url.substring(url.length - 5, url.length)}";
     try {
       await dio.download(url, newFileLocation,
           onReceiveProgress: (received, total) {

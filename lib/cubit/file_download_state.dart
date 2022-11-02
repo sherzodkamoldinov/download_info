@@ -1,4 +1,4 @@
-part of 'file_download_state.dart';
+part of 'file_download_cubit.dart';
 
 
 class FileManagerState extends Equatable {
