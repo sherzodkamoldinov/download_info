@@ -1,6 +1,8 @@
-
+import 'package:download_info/data/models/product_model.dart';
+import 'package:download_info/data/service/api_client.dart';
+import 'package:download_info/data/service/api_provider.dart';
+import 'package:download_info/widgets/file_download_item.dart';
 import 'package:flutter/material.dart';
-
 
 class FileDownloadScreen extends StatefulWidget {
   const FileDownloadScreen({super.key});
@@ -13,17 +15,26 @@ class _FileDownloadScreenState extends State<FileDownloadScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("File download "),
+      appBar: AppBar(
+        title: const Text("File download "),
       ),
-      body: ListView(
-        children: List.generate(4, (index) => ListTile(
-          title: Text("Price "),
-          leading: Image.network("Image url keladi"),
-          subtitle:LinearProgressIndicator(
-              // value: state.progress,
-              backgroundColor: Colors.black,
-            ) ,
-        )),
+      body: FutureBuilder<List<ProductModel>>(
+        builder: (context, snapshot) {
+          var products = snapshot.data!;
+          if (snapshot.hasData) {
+            return ListView(
+              children: List.generate(products.length, (index) {
+                var singleFile = products[index];
+                return SingleFileDownload(fileInfo: singleFile);
+              }),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+        future: ApiService(apiClient: ApiClient()).getProducts(),
       ),
     );
   }
