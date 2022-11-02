@@ -1,3 +1,6 @@
+import 'package:download_info/data/models/product_model.dart';
+import 'package:download_info/data/service/api_client.dart';
+import 'package:download_info/data/service/api_provider.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -49,6 +52,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    ApiService(apiClient: ApiClient()).getProducts();
+  }
 
   void _incrementCounter() {
     setState(() {
