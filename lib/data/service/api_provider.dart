@@ -13,7 +13,6 @@ class ApiService {
       Response response = await apiClient.dio.get(
         apiClient.dio.options.baseUrl,
       );
-      debugPrint('-------------------MYDATA-------------------\n ${response.data}');
       if (response.statusCode! == HttpStatus.ok) {
         return (response.data['data'] as List?)
                 ?.map((e) => ProductModel.fromJson(e))

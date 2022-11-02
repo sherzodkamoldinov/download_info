@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -87,14 +86,14 @@ class LocalNotificationService {
     description: "My Notification description",
   );
 
-  void showNotification(RemoteMessage remoteMessage) {
+  void showNotification(String data) {
     var random =
         Random(); // keep this somewhere in a static variable. Just make sure to initialize only once.
     int id = random.nextInt(1000);
     flutterLocalNotificationsPlugin.show(
       id,
-      remoteMessage.notification?.title,
-      remoteMessage.notification?.body,
+      'New file downloaded',
+      'Tap to open file',
       NotificationDetails(
         android: AndroidNotificationDetails(
           androidNotificationChannel.id,
@@ -106,7 +105,7 @@ class LocalNotificationService {
           largeIcon: const DrawableResourceAndroidBitmap('app_icon'),
         ),
       ),
-      payload: remoteMessage.data["route_name"],
+      payload: data,
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:download_info/cubit/file_download_cubit.dart';
 import 'package:download_info/data/models/product_model.dart';
 
@@ -21,10 +22,10 @@ class SingleFileDownload extends StatelessWidget {
             leading: state.newFileLocation.isEmpty
                 ? const Icon(Icons.download)
                 : const Icon(Icons.download_done),
-            title: Text("Downloaded: ${state.progress * 100} %"),
+            title: Text("Progress ${state.progress * 100} %"),
             subtitle: LinearProgressIndicator(
               value: state.progress,
-              backgroundColor: Colors.black,
+              backgroundColor: Colors.grey,
             ),
             onTap: () {
               context
@@ -38,7 +39,7 @@ class SingleFileDownload extends StatelessWidget {
                   OpenFile.open(state.newFileLocation);
                 }
               },
-              icon: const Icon(Icons.file_open),
+              icon: const Icon(Icons.open_in_new_rounded),
             ),
           );
         },

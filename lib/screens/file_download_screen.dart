@@ -20,17 +20,21 @@ class _FileDownloadScreenState extends State<FileDownloadScreen> {
       ),
       body: FutureBuilder<List<ProductModel>>(
         builder: (context, snapshot) {
-          var products = snapshot.data!;
           if (snapshot.hasData) {
+            var products = snapshot.data!;
             return ListView(
               children: List.generate(products.length, (index) {
                 var singleFile = products[index];
                 return SingleFileDownload(fileInfo: singleFile);
               }),
             );
-          } else {
+          } else if (!snapshot.hasData) {
             return const Center(
               child: CircularProgressIndicator(),
+            );
+          } else {
+            return Center(
+              child: Text(snapshot.error.toString()),
             );
           }
         },
