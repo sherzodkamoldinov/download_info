@@ -1,8 +1,13 @@
 import 'package:download_info/screens/file_download_screen.dart';
+import 'package:download_info/services/local_notification_service.dart';
 import 'package:flutter/material.dart';
+
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  LocalNotificationService.localNotificationService.init();
   runApp(MyApp());
 }
 
@@ -21,3 +26,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

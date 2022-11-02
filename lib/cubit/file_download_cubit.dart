@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:download_info/data/models/product_model.dart';
+import 'package:download_info/services/local_notification_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:open_file_safe/open_file_safe.dart';
@@ -40,12 +41,12 @@ class FileManagerCubit extends Cubit<FileManagerState> {
         emit(state.copyWith(progress: pr));
       });
       emit(state.copyWith(newFileLocation: newFileLocation));
+      LocalNotificationService.localNotificationService
+          .showNotification(fileUrl: newFileLocation);
     } catch (error) {
       debugPrint("DOWNLOAD ERROR:$error");
     }
-
   }
-
 
   Future<bool> _requestWritePermission() async {
     await Permission.storage.request();
@@ -68,5 +69,4 @@ class FileManagerCubit extends Cubit<FileManagerState> {
     }
     return directory;
   }
-  
 }

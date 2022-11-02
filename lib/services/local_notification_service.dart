@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:open_file_safe/open_file_safe.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -17,7 +18,7 @@ class LocalNotificationService {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  void init(GlobalKey<NavigatorState> navigatorKey) {
+  void init() {
     // Android
     const AndroidInitializationSettings androidInitializationSettings =
         AndroidInitializationSettings("app_icon");
@@ -42,8 +43,8 @@ class LocalNotificationService {
       ) async {
         final String? payload = notificationResponse.payload;
         debugPrint('NOTIFICATION PAYLOAD: ${payload.toString()}');
-        if (navigatorKey.currentState != null) {
-          navigatorKey.currentState?.pushNamed(payload.toString());
+        if(notificationResponse.payload != null){
+          OpenFile.open(notificationResponse.payload);
         }
       },
     );
@@ -59,11 +60,6 @@ class LocalNotificationService {
   @pragma('vm:entry-point')
   void notificationTapBackground(NotificationResponse notificationResponse) {
     // handle action
-  }
-
-  ValueChanged<String> onOpenedPage(String valueChanged) {
-    late ValueChanged<String> valueChanged = (valueChanged) {};
-    return valueChanged;
   }
 
   //IOS
@@ -86,7 +82,7 @@ class LocalNotificationService {
     description: "My Notification description",
   );
 
-  void showNotification(String data) {
+  void showNotification({required String fileUrl}) {
     var random =
         Random(); // keep this somewhere in a static variable. Just make sure to initialize only once.
     int id = random.nextInt(1000);
@@ -105,7 +101,7 @@ class LocalNotificationService {
           largeIcon: const DrawableResourceAndroidBitmap('app_icon'),
         ),
       ),
-      payload: data,
+      payload: fileUrl,
     );
   }
 
