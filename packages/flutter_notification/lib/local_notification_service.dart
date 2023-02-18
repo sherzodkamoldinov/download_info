@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:open_file_safe/open_file_safe.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -42,7 +41,7 @@ class LocalNotificationService {
         NotificationResponse notificationResponse,
       ) async {
         final String? payload = notificationResponse.payload;
-        debugPrint('NOTIFICATION PAYLOAD: ${payload.toString()}');
+        print('NOTIFICATION PAYLOAD: ${payload.toString()}');
         if(notificationResponse.payload != null){
           OpenFile.open(notificationResponse.payload);
         }

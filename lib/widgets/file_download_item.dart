@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:download_info/cubit/file_download_cubit.dart';
 import 'package:download_info/data/models/product_model.dart';
 
@@ -19,18 +18,22 @@ class SingleFileDownload extends StatelessWidget {
       child: BlocBuilder<FileManagerCubit, FileManagerState>(
         builder: (context, state) {
           return ListTile(
-            leading: state.newFileLocation.isEmpty
-                ? const Icon(Icons.download)
-                : const Icon(Icons.download_done),
-            title: Text("Progress ${state.progress * 100} %"),
-            subtitle: LinearProgressIndicator(
-              value: state.progress,
-              backgroundColor: Colors.grey,
-            ),
+            leading: state.progress == 0
+                ? const Icon(Icons.filter_drama_rounded)
+                : CircularProgressIndicator(
+                    value: state.progress,
+                    backgroundColor: Colors.grey,
+                  ),
+            title: Text(fileInfo.name),
+            subtitle: Text("${fileInfo.price} \$"),
             onTap: () {
-              context
-                  .read<FileManagerCubit>()
-                  .downloadIfExists(productModel: fileInfo);
+              if (state.newFileLocation.isNotEmpty) {
+                OpenFile.open(state.newFileLocation);
+              } else {
+                context
+                    .read<FileManagerCubit>()
+                    .downloadIfExists(productModel: fileInfo);
+              }
             },
             trailing: IconButton(
               onPressed: () {
